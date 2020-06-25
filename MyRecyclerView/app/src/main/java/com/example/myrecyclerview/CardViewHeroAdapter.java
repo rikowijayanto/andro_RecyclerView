@@ -62,7 +62,16 @@ public class CardViewHeroAdapter extends RecyclerView.Adapter <CardViewHeroAdapt
             }
         });
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(holder.itemView.getContext(), "Kamu memilih " + listHero.get(holder.getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
+
+
 
     @Override
     public int getItemCount() {

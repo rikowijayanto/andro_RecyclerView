@@ -15,6 +15,12 @@ import java.util.ArrayList;
 
 public class GridHeroAdapter extends RecyclerView.Adapter <GridHeroAdapter.GridHeroView> {
 
+    private OnItemClickCallback onItemClickCallback;
+
+    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
+    }
+
     private ArrayList <Hero> listHero;
 
     public GridHeroAdapter (ArrayList <Hero> list) {
@@ -30,7 +36,7 @@ public class GridHeroAdapter extends RecyclerView.Adapter <GridHeroAdapter.GridH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GridHeroView holder, int position) {
+    public void onBindViewHolder(@NonNull final GridHeroView holder, int position) {
 
         Hero hero = listHero.get(position);
 
@@ -39,6 +45,13 @@ public class GridHeroAdapter extends RecyclerView.Adapter <GridHeroAdapter.GridH
                 .load(hero.getPhoto())
                 .apply(new RequestOptions().override(350, 350))
                 .into(holder.imgPhoto);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickCallback.onItemClicked(listHero.get(holder.getAdapterPosition()));
+            }
+        });
 
     }
 
@@ -56,5 +69,9 @@ public class GridHeroAdapter extends RecyclerView.Adapter <GridHeroAdapter.GridH
 
             imgPhoto = itemView.findViewById(R.id.img_item_photo);
         }
+    }
+
+    public interface OnItemClickCallback {
+        void onItemClicked(Hero data);
     }
 }
