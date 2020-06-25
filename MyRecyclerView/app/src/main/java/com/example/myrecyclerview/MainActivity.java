@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rvHeroes;
 
+    private String title = "Mode List";
+
     private ArrayList<Hero> list = new ArrayList<>();
 
     @Override
@@ -29,7 +31,15 @@ public class MainActivity extends AppCompatActivity {
         list.addAll(getListHeroes());
         showRecyclerList();
 
+        setActionBarTitle(title);
 
+
+    }
+
+    private void setActionBarTitle(String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
     }
 
     public ArrayList<Hero> getListHeroes() {
@@ -62,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void showRecyclerCard () {
+        rvHeroes.setLayoutManager(new LinearLayoutManager(this));
+        CardViewHeroAdapter cardViewHeroAdapter = new CardViewHeroAdapter(list);
+        rvHeroes.setAdapter(cardViewHeroAdapter);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -78,10 +94,15 @@ public class MainActivity extends AppCompatActivity {
                 showRecyclerList();
                 break;
             case R.id.action_grid:
+                title = "Grid Mode";
                 showRecyclerGrid();
                 break;
             case R.id.action_cardview:
+                title = "Card Mode";
+                showRecyclerCard();
                 break;
         }
+
+        setActionBarTitle(title);
     }
 }
